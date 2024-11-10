@@ -1,8 +1,8 @@
 #include<iostream>
-#include<cstring> // для использования си строк 
-#include<cstdlib> // для очистки экрана 
-#include <conio.h> // для выделения памяти 
-#include <fstream> //Файловый вывод
+#include<cstring> // Г¤Г«Гї ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ Г­ГЁГї Г±ГЁ Г±ГІГ°Г®ГЄ 
+#include<cstdlib> // Г¤Г«Гї Г®Г·ГЁГ±ГІГЄГЁ ГЅГЄГ°Г Г­Г  
+#include <conio.h> // Г¤Г«Гї ГўГ»Г¤ГҐГ«ГҐГ­ГЁГї ГЇГ Г¬ГїГІГЁ 
+#include <fstream> //Г”Г Г©Г«Г®ГўГ»Г© ГўГ»ГўГ®Г¤
 #include <windows.h> 
  
 using namespace std;
@@ -12,11 +12,11 @@ using namespace std;
  	 	{
  	 		   
 			  private:
-			  char** text; //Указатель на двухмерный массив символов
+			  char** text; //Г“ГЄГ Г§Г ГІГҐГ«Гј Г­Г  Г¤ГўГіГµГ¬ГҐГ°Г­Г»Г© Г¬Г Г±Г±ГЁГў Г±ГЁГ¬ГўГ®Г«Г®Гў
 		  	  char razdel[6];
 			  char zamena ;
 			  int stolb; 
-			  bool status; // Определяет пустой ли объект
+			  bool status; // ГЋГЇГ°ГҐГ¤ГҐГ«ГїГҐГІ ГЇГіГ±ГІГ®Г© Г«ГЁ Г®ГЎГєГҐГЄГІ
 			  public:
 			  	
 				void set_razdel()    
@@ -24,7 +24,7 @@ using namespace std;
 			  		cout<<"Vvedite razdeliteli:" ;  	
 				  	 
     				 
-    				while(cin.get() != '\n'); // поимка лишних /n
+    				while(cin.get() != '\n'); // ГЇГ®ГЁГ¬ГЄГ  Г«ГЁГёГ­ГЁГµ /n
 					gets(razdel);
 					 
 					
@@ -73,7 +73,7 @@ using namespace std;
 					cout<<endl;
 				}
 				
-				bool if_stolb() //Проверка введёности текста 
+				bool if_stolb() //ГЏГ°Г®ГўГҐГ°ГЄГ  ГўГўГҐГ¤ВёГ­Г®Г±ГІГЁ ГІГҐГЄГ±ГІГ  
 				{
 					if(status==0)
 					{
@@ -81,7 +81,7 @@ using namespace std;
 					}
 					return 1;
 				}
-				bool if_zamena() //Проверка введёности замены
+				bool if_zamena() //ГЏГ°Г®ГўГҐГ°ГЄГ  ГўГўГҐГ¤ВёГ­Г®Г±ГІГЁ Г§Г Г¬ГҐГ­Г»
 				{
 					if(zamena == '\0')
 					{
@@ -101,7 +101,7 @@ using namespace std;
 					status = 0;
 				}
 			 
-			friend class Work; //Для передачи объекта
+			friend class Work; //Г„Г«Гї ГЇГҐГ°ГҐГ¤Г Г·ГЁ Г®ГЎГєГҐГЄГІГ 
 			friend class Out;
 		};
 
@@ -112,7 +112,7 @@ using namespace std;
 		   
 		    int  razdel_if (char  razd[6], char s) 
 			{ 
-				for(int i=0;i<5;i++) // Пробегаеи до 5 так как 
+				for(int i=0;i<5;i++) // ГЏГ°Г®ГЎГҐГЈГ ГҐГЁ Г¤Г® 5 ГІГ ГЄ ГЄГ ГЄ 
 			  	{               
 			  		if( razd[i]==s)
 			  		return 1;
@@ -261,7 +261,7 @@ int main()
 	 
 	switch (chois)
 	{
-		case '1': // Ввод текста
+		case '1': // Г‚ГўГ®Г¤ ГІГҐГЄГ±ГІГ 
 			{
 				while(cin.get() != '\n');	
 				vvod.set_text();
@@ -274,7 +274,7 @@ int main()
 				break;
 			}
 		
-		case '2': //Обработка
+		case '2': //ГЋГЎГ°Г ГЎГ®ГІГЄГ 
 			{
 				if(((vvod.if_stolb())*(vvod.if_zamena()))==0)
 					{
@@ -299,7 +299,7 @@ int main()
 				break;
 			}
 		
-		case '4': // Вывести и записать текст 
+		case '4': // Г‚Г»ГўГҐГ±ГІГЁ ГЁ Г§Г ГЇГЁГ±Г ГІГј ГІГҐГЄГ±ГІ 
 			{
 				if(vvod.if_stolb()==0)
 				{
@@ -335,7 +335,7 @@ int main()
 				break;
 			}
 		
-		case '3': // Ввод разделителей и замены
+		case '3': // Г‚ГўГ®Г¤ Г°Г Г§Г¤ГҐГ«ГЁГІГҐГ«ГҐГ© ГЁ Г§Г Г¬ГҐГ­Г»
 			{
 					 
 					
@@ -349,7 +349,7 @@ int main()
 					break;
 			}
 		
-		case '5': //Выход из програмы  
+		case '5': //Г‚Г»ГµГ®Г¤ ГЁГ§ ГЇГ°Г®ГЈГ°Г Г¬Г»  
 			{				/*
 							Beep(329.63*n,450*l);
 							Beep(440*n,450*l);
@@ -410,7 +410,7 @@ int main()
 	
  	 	goto begin;	 
 	 
-end: ; 	 // Флаг для выхода 	
+end: ; 	 // Г”Г«Г ГЈ Г¤Г«Гї ГўГ»ГµГ®Г¤Г  	
 	 
 	 
 	return 0;
