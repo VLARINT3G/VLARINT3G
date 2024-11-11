@@ -1,417 +1,104 @@
-#include<iostream>
-#include<cstring> // äëÿ èñïîëüçîâàíèÿ ñè ñòðîê 
-#include<cstdlib> // äëÿ î÷èñòêè ýêðàíà 
-#include <conio.h> // äëÿ âûäåëåíèÿ ïàìÿòè 
-#include <fstream> //Ôàéëîâûé âûâîä
-#include <windows.h> 
- 
-using namespace std;
- 
- 
- class Input
- 	 	{
- 	 		   
-			  private:
-			  char** text; //Óêàçàòåëü íà äâóõìåðíûé ìàññèâ ñèìâîëîâ
-		  	  char razdel[6];
-			  char zamena ;
-			  int stolb; 
-			  bool status; // Îïðåäåëÿåò ïóñòîé ëè îáúåêò
-			  public:
-			  	
-				void set_razdel()    
-			    {
-			  		cout<<"Vvedite razdeliteli:" ;  	
-				  	 
-    				 
-    				while(cin.get() != '\n'); // ïîèìêà ëèøíèõ /n
-					gets(razdel);
-					 
-					
-					cout<<endl;
-			    }
-		
-			  	void set_text()
-			    {
-				     status = 1;
-					 char buffer[102];
-				     stolb =-1;
-				     		do
-								{
-			
-									gets(buffer);
-		 							if(strlen(buffer)>101)
-									{
-										cout<<endl;
-										cout<<"Vvedite sroku zanovo"<<endl;
-									}  
-			
-									else
-									{
-										stolb++;
-										text=(char**)realloc(text,(stolb+1)*sizeof(char*));
-										text[stolb]=(char*)calloc((strlen(buffer)+1),sizeof(char));
-										strcpy(text[stolb],buffer);
-									}		 
-								
-								if(strlen(buffer)<30)
-								{
-									break;
-								}
-					
-			  
-				 
-								} while(1);
-					 
-				
-				}
-				
-				void set_zamena()
-				{
-					cout<<"Vvedite zamenu:";
-					cin>>zamena;
-					cout<<endl;
-				}
-				
-				bool if_stolb() //Ïðîâåðêà ââåä¸íîñòè òåêñòà 
-				{
-					if(status==0)
-					{
-						return 0;
-					}
-					return 1;
-				}
-				bool if_zamena() //Ïðîâåðêà ââåä¸íîñòè çàìåíû
-				{
-					if(zamena == '\0')
-					{
-						return 0;
-					}
-						return 1;
-				}
-				
-			
-				
-				Input()
-				{
-					text =(char**)(calloc(1,sizeof(char*))) ;
-					stolb = 0;
-					zamena ='\0';
-					
-					status = 0;
-				}
-			 
-			friend class Work; //Äëÿ ïåðåäà÷è îáúåêòà
-			friend class Out;
-		};
+/**
+ * @file main.cpp
+ * @brief Основной файл программы для обработки текста с использованием C++, SQLite и Doxygen.
+ */
 
-  
- class Work
- 		{
- 		  	public:
-		   
-		    int  razdel_if (char  razd[6], char s) 
-			{ 
-				for(int i=0;i<5;i++) // Ïðîáåãàåè äî 5 òàê êàê 
-			  	{               
-			  		if( razd[i]==s)
-			  		return 1;
-				}
-			
-			return 0;
-			}
-			
-			int sum_word( char razd[6],char str[] )
-			{
-				int i =-1;
-				int s =0 ;
-				bool status  =0;
-				while(1)
-				{
-					i++;
-					if(str[i]=='\0') {break;}
-					if(razdel_if( razd ,str[i])) 
-					{status  =  0;}
-					
-					else
-						{
-							if(status == 0)
-							 	{
-									s++;
-									status =1;	 
-								}	
-						}
-				}
-				
-				return s;	
-			}
-		    
-			bool glas_if(char s) 
-			{
-			
-			
-					string str = "AIOEUYaioeuy";
-					int i=-1;
-					while(1)
-					{
-						i++;
-						if(str[i]=='\0') {break;} 
-						if(str[i]==s) {return 1;}
-					}
-			 return 0;	
-			}
-			
-			void  change( char razd[6], char zamen, char str[] )
-			{
-				int i=-1;
-				if(sum_word(razd,str)>5)
-				{
-				
-					while(1)
-					{
-				
-						i++;
-						if(str[i] =='\0') {break;}
-						
-						if(glas_if(str[i])) {str[i]=zamen;}
-					}
-				}	
-			}
-			
-			void  working(Input &y)
-			{
-				for(int i = 0; i<y.stolb+1 ; i++)
-				{
-					change(y.razdel, y.zamena,y.text[i] );
-				}
-				
-			}
-			
-				
-		
-		};
- 
- 
- class Out
- 		{	
- 		public:
-		 void show(Input y)
-			 {
-				for(int i = 0; i<y.stolb+1;i++)
- 				{
- 			 		int k=-1;	
-			 		cout<<endl;	
-			 		k++;
-					cout<<y.text[i];	
-			 		if(y.text[i][k]=='\0')
-			 			{
-			 				break;	
-						}
-					   				
-				}		 		 
-			 }	
-		
-		 void zapis(Input y, ofstream &f)
-			{	
-				
-				f.open("Kursach.txt");
-				for(int i = 0; i<y.stolb+1;i++)
- 				{
- 			 		
-			 		f<<endl;	
-			 		
-					f<<y.text[i];	
-			 		
-					   				
-				}		 		 
-			 	f.close();
-			 }	
-		};	
-  	
-int main()
-{ 
- 	
-	Input vvod;
-	Work  proc;
-	Out  vivid;
-	ofstream fael("Kursach.txt");
-	
-	begin:
-	{
-	
-	/*
-	float n = 1.5;
-	float l = 0.75;
-	*/}
-	
-	char chois='0';
-	char s;
-	
-	cout<<endl;
-	cout<<"Menu"<<endl;
-	cout<<"1)Vvesti text"<<endl;
-	cout<<"2)Obravotat text"<<endl;
-	cout<<"3)Vvesti razdeliteli i symvol zameni"<<endl;
-	cout<<"4)Vivesti text"<<endl;
-	cout<<"5)Vixod"<<endl;
-	cout<<"Vibirete deystvie->";
-	
-	cin>>chois;
-	cout<<endl;
-	 
-	switch (chois)
-	{
-		case '1': // Ââîä òåêñòà
-			{
-				while(cin.get() != '\n');	
-				vvod.set_text();
-				system("cls");
-				cout<<"Well done";
-			 	
-				 
-			
-				
-				break;
-			}
-		
-		case '2': //Îáðàáîòêà
-			{
-				if(((vvod.if_stolb())*(vvod.if_zamena()))==0)
-					{
-						system("cls");
-						cout<<"Eror"<<endl;
-					
-					}
-				else
-					{
-						system("cls");
-						
-						proc.working(vvod); 	
-							
-							
-						 
-						cout<<"Well done ";
-						 
-					}
-				 
-				
-				 	
-				break;
-			}
-		
-		case '4': // Âûâåñòè è çàïèñàòü òåêñò 
-			{
-				if(vvod.if_stolb()==0)
-				{
-					system("cls");
-					cout<<"Eror"<<endl;
-					
-					
-				}
-				else
-				{
-					
-					vivid.show(vvod);
-					
-					cout<<endl;
-					cout<<endl;
-					cout<<"Zapisat text v fail"<<endl;
-					cout<<"Y/N"<<endl;
-					char ch;
-					cin>>ch;
-					if((ch=='Y')||(ch=='y'))
-					{
-						
-						vivid.zapis(vvod, fael);	 
-						vivid.zapis(vvod, fael);
-						 
-					}
-					
-				
-				system("cls");
-				cout<<"Well done"<<endl;
-				
-				}
-				break;
-			}
-		
-		case '3': // Ââîä ðàçäåëèòåëåé è çàìåíû
-			{
-					 
-					
-					vvod.set_razdel();
-					vvod.set_zamena();
-					
-					system("cls");
-					cout<<endl;
-					cout<<"Well done"<<endl;
-					
-					break;
-			}
-		
-		case '5': //Âûõîä èç ïðîãðàìû  
-			{				/*
-							Beep(329.63*n,450*l);
-							Beep(440*n,450*l);
-							Beep(523.25*n,450*l);
-				
-							Beep(329.63*n,450*l);
-							Beep(440*n,450*l);
-							Beep(523.25*n,450*l);
-				
-							Beep(329.63*n,450*l);
-							Beep(440*n,450*l);
-				
-							Beep(297.66*n,450*l);
-							Beep(392*n,450*l);
-							Beep(493.88*n,450*l);
-				
-							Beep(297.66*n,450*l);
-							Beep(392*n,450*l);
-							Beep(493.88*n,450*l);
-				
-							Beep(297.66*n,450*l);
-							Beep(392*n,450*l);
-				
-							Beep(261.63*n, 450*l);
-							Beep(349.23*n, 450*l);
-							Beep(440*n,450*l);
-				
-							Beep(261.63*n, 450*l);
-							Beep(349.23*n, 450*l);
-							Beep(440*n,450*l);
-							
-							Beep(261.63*n, 450*l);
-							Beep(349.23*n, 450*l);
-						
-							Beep(297.66*n,450*l);
-							Beep(349.23*n, 450*l);
-							Beep(440*n,450*l);
-				
-							Beep(297.66*n,450*l);
-							Beep(349.23*n, 450*l);
-							Beep(440*n,450*l);
-			
-							Beep(297.66*n,450*l);
-							Beep(349.23*n, 450*l);
-							*/
-				goto end;
-				break;	
-			}
-		default:
-			{
-				system("cls");
-				cout<<"Oshbka poprubuyte snova"<<endl;
-				
-				goto begin;
-			}
-	
-	}
-	
- 	 	goto begin;	 
-	 
-end: ; 	 // Ôëàã äëÿ âûõîäà 	
-	 
-	 
-	return 0;
+#include <iostream>
+#include <Input.h>
+#include <Work.h>
+#include <Out.h>
+#include <Database.h>
+#include <sqlite3.h>
+
+using namespace std;
+
+/**
+ * @brief Инициализация базы данных SQLite.
+ * @param db Указатель на базу данных SQLite.
+ * @return true, если база данных успешно открыта и таблица создана, иначе false.
+ */
+bool initDatabase(sqlite3*& db) {
+    if (sqlite3_open("text_processing.db", &db)) {
+        cerr << "Не удалось открыть базу данных: " << sqlite3_errmsg(db) << endl;
+        return false;
+    }
+    const char* sql = "CREATE TABLE IF NOT EXISTS TextEntries (id INTEGER PRIMARY KEY, text TEXT);";
+    char* errMsg = nullptr;
+    if (sqlite3_exec(db, sql, nullptr, nullptr, &errMsg) != SQLITE_OK) {
+        cerr << "Ошибка SQL: " << errMsg << endl;
+        sqlite3_free(errMsg);
+        return false;
+    }
+    return true;
+}
+
+/**
+ * @brief Основная функция программы.
+ * @return Код завершения программы (0 - успешное выполнение).
+ */
+int main() {
+    Input input;
+    Work processor;
+    Out output;
+    sqlite3* db;
+
+    // Инициализация базы данных
+    if (!initDatabase(db)) {
+        return 1;
+    }
+
+    char choice;
+    do {
+        cout << "\nМеню:\n";
+        cout << "1) Ввести текст\n";
+        cout << "2) Обработать текст\n";
+        cout << "3) Ввести разделители и символ замены\n";
+        cout << "4) Показать текст\n";
+        cout << "5) Выход\n";
+        cout << "Выберите действие: ";
+        cin >> choice;
+
+        switch (choice) {
+            case '1':
+                cin.ignore();
+                input.setText();
+                break;
+            case '2':
+                if (input.hasText() && input.hasZamena()) {
+                    processor.processText(input);
+                    cout << "Текст обработан." << endl;
+                } else {
+                    cout << "Ошибка: нет текста или символа замены." << endl;
+                }
+                break;
+            case '3':
+                input.setRazdel();
+                input.setZamena();
+                break;
+            case '4':
+                if (input.hasText()) {
+                    output.show(input);
+                    cout << "\nСохранить текст в файл? (Y/N): ";
+                    char saveChoice;
+                    cin >> saveChoice;
+                    if (saveChoice == 'Y' || saveChoice == 'y') {
+                        output.saveToFile(input, "Kursach.txt");
+                        output.saveToDatabase(input, db);
+                        cout << "Текст сохранен." << endl;
+                    }
+                } else {
+                    cout << "Ошибка: нет текста." << endl;
+                }
+                break;
+            case '5':
+                cout << "Выход из программы." << endl;
+                break;
+            default:
+                cout << "Неверный выбор, попробуйте снова." << endl;
+        }
+    } while (choice != '5');
+
+    // Закрытие базы данных
+    sqlite3_close(db);
+    return 0;
 }
